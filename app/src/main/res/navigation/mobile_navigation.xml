@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/action_home">
+
+    <fragment
+        android:id="@+id/action_search"
+        android:name="com.example.cinemalab.ui.search.SearchFragment"
+        android:label="@string/bottom_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_action_search_to_filterFragment"
+            app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_action_search_to_searchEngineFragment"
+            app:destination="@id/searchEngineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_favorites"
+        android:name="com.example.cinemalab.ui.favorites.FavoritesFragment"
+        android:label="@string/bottom_favorites"
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_action_favorites_to_filterFragment"
+            app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_action_favorites_to_searchEngineFragment"
+            app:destination="@id/searchEngineFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_home"
+        android:name="com.example.cinemalab.ui.home.HomeFragment"
+        android:label="@string/bottom_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_action_home_to_filterFragment"
+            app:destination="@id/filterFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/action_profile"
+        android:name="com.example.cinemalab.ui.profile.ProfileFragment"
+        android:label="@string/bottom_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_action_profile_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_action_profile_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.cinemalab.ui.filter.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_filterFragment_to_optionsFragment"
+            app:destination="@id/optionsFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/optionsFragment"
+        android:name="com.example.cinemalab.ui.filter.OptionsFragment"
+        android:label="fragment_options"
+        tools:layout="@layout/fragment_options" />
+    <fragment
+        android:id="@+id/searchEngineFragment"
+        android:name="com.example.cinemalab.ui.search.SearchEngineFragment"
+        android:label="fragment_search_engine"
+        tools:layout="@layout/fragment_search_engine" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.cinemalab.ui.profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.cinemalab.ui.profile.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>

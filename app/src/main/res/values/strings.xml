@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">CinemaLab</string>
+
+    <!--Bottom's Strings-->
+    <string name="bottom_home">Home</string>
+    <string name="bottom_search">Search</string>
+    <string name="bottom_favorites">Favorites</string>
+    <string name="bottom_profile">Profile</string>
+
+    <string name="search_view">Films, series</string>
+    <string name="favorites_search_view">Search in "favorites"</string>
+
+    <string name="clear_options">Clear</string>
+    <string name="all_categories">All</string>
+    <string name="films">Films</string>
+    <string name="series">Series</string>
+
+    <string name="genres">Genres</string>
+    <string name="countries">Countries</string>
+    <string name="year">Year</string>
+    <string name="rating">Rating</string>
+    <string name="popularity">Popularity</string>
+    <string name="date">Date</string>
+    <string name="any">any</string>
+    <string name="sort_by">Sort by</string>
+    <string name="search">Search</string>
+
+
+    <string name="total_in_favorites">0 total</string>
+    <string name="mytab_main_text">It\'s Yours Tab</string>
+    <string name="mytab_sub_text">Customize it for you and specify what you would like to see here</string>
+    <string name="set_up_btn">Set up</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
