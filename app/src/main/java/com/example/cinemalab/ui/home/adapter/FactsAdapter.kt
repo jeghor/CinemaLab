@@ -5,16 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemalab.R
+import com.example.cinemalab.data.remote.model.movie.Movie
 import com.example.cinemalab.databinding.ItemFactBinding
-import com.example.cinemalab.model.Fact
 
 class FactsAdapter: RecyclerView.Adapter<FactsAdapter.FactsViewHolder>(){
 
-    var facts: List<Fact> = emptyList()
-        set(newValue){
-            field = newValue
-            notifyItemInserted(facts.size)
-        }
+//    var facts: List<Fact> = emptyList()
+//        set(newValue){
+//            field = newValue
+//            notifyItemInserted(facts.size)
+//        }
+    private var facts: MutableList<Movie> = mutableListOf()
 
     inner class FactsViewHolder(
         val binding: ItemFactBinding
@@ -31,14 +32,21 @@ class FactsAdapter: RecyclerView.Adapter<FactsAdapter.FactsViewHolder>(){
     override fun onBindViewHolder(holder: FactsViewHolder, position: Int) {
         val fact = facts[position]
         with(holder.binding){
-            factText.text = fact.fact
-            if (fact.photo.isNotBlank()){
-                Glide.with(posterImage.context)
-                    .load(fact.photo)
-                    .into(posterImage)
-            } else{
-                posterImage.setImageResource(R.drawable.ic_profilepicture)
+            if (fact.facts?.isNotEmpty()!!){
+                factText.text = fact.facts[0].value
+                if (fact.poster?.previewUrl?.isNotBlank() == true){
+                    Glide.with(posterImage.context)
+                        .load(fact.poster.previewUrl)
+                        .into(posterImage)
+                } else{
+                    posterImage.setImageResource(R.drawable.ic_profilepicture)
+                }
             }
         }
+    }
+
+    fun addMovie(movie: Movie) {
+        facts.add(movie)
+        notifyItemInserted(facts.size)
     }
 }

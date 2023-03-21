@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cinemalab.databinding.ItemOptionBinding
 import com.example.cinemalab.model.Genre
 
-interface GenreActionListener{
+interface GenreActionListener {
     fun onGenre(genre: Genre)
 }
 
 class GenresAdapter(
     private val actionListener: GenreActionListener
-): RecyclerView.Adapter<GenresAdapter.GenresViewHolder>(), View.OnClickListener{
+) : RecyclerView.Adapter<GenresAdapter.GenresViewHolder>(), View.OnClickListener {
 
     var genresList: List<Genre> = emptyList()
-        set(newValue){
+        set(newValue) {
             field = newValue
             notifyItemInserted(genresList.size)
         }
@@ -27,7 +27,7 @@ class GenresAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenresViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemOptionBinding.inflate(inflater,parent,false)
+        val binding = ItemOptionBinding.inflate(inflater, parent, false)
 
         binding.listItem.setOnClickListener(this)
 
@@ -39,10 +39,10 @@ class GenresAdapter(
     override fun onBindViewHolder(holder: GenresViewHolder, position: Int) {
         val genre = genresList[position]
 
-        with(holder.binding){
+        with(holder.binding) {
             listItem.tag = genre
             nameValue.text = genre.genre
-            if (genre.isSelected){
+            if (genre.isSelected) {
                 selectIcon.visibility = View.VISIBLE
             }
         }

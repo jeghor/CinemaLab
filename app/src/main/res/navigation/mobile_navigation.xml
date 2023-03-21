@@ -17,8 +17,11 @@
         <action
             android:id="@+id/action_action_search_to_searchEngineFragment"
             app:destination="@id/searchEngineFragment" />
+        <action
+            android:id="@+id/action_action_search_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
-    <fragment
+     <fragment
         android:id="@+id/action_favorites"
         android:name="com.example.cinemalab.ui.favorites.FavoritesFragment"
         android:label="@string/bottom_favorites"
@@ -29,6 +32,9 @@
         <action
             android:id="@+id/action_action_favorites_to_searchEngineFragment"
             app:destination="@id/searchEngineFragment" />
+        <action
+            android:id="@+id/action_action_favorites_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/action_home"
@@ -38,6 +44,9 @@
         <action
             android:id="@+id/action_action_home_to_filterFragment"
             app:destination="@id/filterFragment"/>
+        <action
+            android:id="@+id/action_action_home_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/action_profile"
@@ -80,5 +89,15 @@
         android:name="com.example.cinemalab.ui.profile.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/myTabFragment"
+        android:name="com.example.cinemalab.ui.home.tabs.MyTabFragment"
+        android:label="fragment_my_tab"
+        tools:layout="@layout/fragment_my_tab" />
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.example.cinemalab.ui.moviedetail.MovieDetailFragment"
+        android:label="fragment_movie_detail"
+        tools:layout="@layout/fragment_movie_detail" />
 
 </navigation>

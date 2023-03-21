@@ -1,5 +1,7 @@
 package com.example.cinemalab.ui.home.adapter
 
+import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.cinemalab.ui.home.tabs.InterestingFragment

@@ -10,4 +10,14 @@
 
     <color name="light_gray">#FBFBFB</color>
     <color name="gray">#6D6D6D</color>
+
+<!--    Rating colors-->
+    <color name="green">#4CAF50</color>
+    <color name="grass_green">#CDDC39</color>
+    <color name="yellow">#FFC107</color>
+    <color name="orange">#FF5722</color>
+    <color name="red">#E63434</color>
+
+
+
 </resources>

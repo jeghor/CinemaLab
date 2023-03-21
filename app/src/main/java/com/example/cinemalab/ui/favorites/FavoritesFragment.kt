@@ -8,13 +8,11 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.cinemalab.R
 import com.example.cinemalab.databinding.FragmentFavoritesBinding
-import com.example.cinemalab.ui.home.adapter.PagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,12 +28,12 @@ class FavoritesFragment : Fragment() {
         return binding.root
     }
 
-    private fun init(){
+    private fun init() {
         binding.homeViewPager.adapter = FavPagerAdapter(this)
         binding.homeTabLayout.tabIconTint = null
 
-        TabLayoutMediator(binding.homeTabLayout,binding.homeViewPager){ tab, position ->
-            when(position){
+        TabLayoutMediator(binding.homeTabLayout, binding.homeViewPager) { tab, position ->
+            when (position) {
                 0 -> tab.text = "Favorites"
                 1 -> tab.text = "Watching"
                 2 -> tab.text = "Scheduled"
