@@ -5,25 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemalab.App
+import com.example.cinemalab.OPTION_TYPE
+import com.example.cinemalab.data.remote.mapper.OptionMapper
+import com.example.cinemalab.data.remote.repository.Repository
 import com.example.cinemalab.databinding.FragmentOptionsBinding
-import com.example.cinemalab.model.Country
-import com.example.cinemalab.model.CountryListener
-import com.example.cinemalab.model.Genre
-import com.example.cinemalab.model.GenresListener
-import com.example.cinemalab.ui.filter.adapter.CountriesAdapter
-import com.example.cinemalab.ui.filter.adapter.CountryActionListener
-import com.example.cinemalab.ui.filter.adapter.GenreActionListener
-import com.example.cinemalab.ui.filter.adapter.GenresAdapter
+import com.example.cinemalab.domain.model.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OptionsFragment : Fragment() {
 
     private lateinit var binding: FragmentOptionsBinding
-    private lateinit var genresAdapter: GenresAdapter
-    private lateinit var countriesAdapter: CountriesAdapter
+    private lateinit var adapter: OptionAdapter
     private lateinit var type: String
 
     private val optionsService = App.optionsService
@@ -33,39 +31,38 @@ class OptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentOptionsBinding.inflate(inflater, container, false)
-        type = arguments?.getString("TYPE").toString()
+        type = arguments?.getString(OPTION_TYPE).toString()
 
-
-        genresAdapter = GenresAdapter(object : GenreActionListener{
-            override fun onGenre(genre: Genre) {
-                optionsService.selectGenre(genre)
+        adapter = OptionAdapter(object : OptionActionListener{
+            override fun onOption(option: Option) {
+                option.isSelected = true
             }
-
-        })
-        countriesAdapter = CountriesAdapter(object : CountryActionListener{
-            override fun onCountry(country: Country) {
-                optionsService.selectCountry(country)
-            }
-
         })
 
-        val layoutManager = LinearLayoutManager(context)
-        binding.optionsRecyclerView.layoutManager = layoutManager
-        if (type == "Genres"){
-            binding.optionsRecyclerView.adapter = genresAdapter
-        } else binding.optionsRecyclerView.adapter = countriesAdapter
+        binding.optionsRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.optionsRecyclerView.adapter = adapter
+        optionsService.addListener(optionListener)
 
+        val query = if (type == "Genres"){
+            "genres.name"
+        } else "countries.name"
 
+        CoroutineScope(Dispatchers.IO).launch {
+            val repo = Repository()
+            val mapper = OptionMapper()
+            val response = repo.getPossibleValues(query)
+            val options = mapper.mapFromModel(response)
 
-        addListener(type)
-
-        binding.backArrow.setOnClickListener { findNavController().popBackStack() }
-        binding.clearButton.setOnClickListener {
-            if (type == "Genres"){
-                optionsService.clearGenresOptions()
-            } else optionsService.clearCountriesOptions()
-            Toast.makeText(context, "Clear $type options", Toast.LENGTH_SHORT ).show()
+            withContext(Dispatchers.Main){
+                adapter.optionList = options
+                if (type == "Genres"){
+                    optionsService.genres.addAll(options)
+                } else {
+                    optionsService.countries.addAll(options)
+                }
+            }
         }
+        binding.backArrow.setOnClickListener { findNavController().popBackStack() }
         binding.doneButton.setOnClickListener { findNavController().popBackStack() }
 
         return binding.root
@@ -73,31 +70,11 @@ class OptionsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        removeListener(type)
+        optionsService.removeListener(optionListener)
     }
 
-    private fun addListener(type:String){
-        if (type=="Genres"){
-            optionsService.addGenresListener(genresListener)
-        } else {
-            optionsService.addCountryListener(countryListener)
-        }
-    }
-
-    private fun removeListener(type: String){
-        if (type=="Genres"){
-            optionsService.removeGenresListener(genresListener)
-        } else {
-            optionsService.removeCountryListener(countryListener)
-        }
-    }
-
-    private val genresListener: GenresListener = {
-        genresAdapter.genresList = it
-    }
-
-    private val countryListener: CountryListener = {
-        countriesAdapter.countriesList = it
+    private val optionListener: OptionListener = {
+        adapter.optionList = it
     }
 
 }

@@ -14,12 +14,13 @@ import com.example.cinemalab.R
 import com.example.cinemalab.data.remote.mapper.MovieEntityMapper
 import com.example.cinemalab.data.remote.model.movie.Movie
 import com.example.cinemalab.databinding.FragmentFavPageDifferentOptBinding
-import com.example.cinemalab.ui.home.tabs.adapter.MyTabAdapter
+import com.example.cinemalab.ui.home.tabs.MovieActionListener
+import com.example.cinemalab.ui.home.tabs.MovieAdapter
 
 class FavPageDifferentOptFragment(category: String) : Fragment() {
 
     private lateinit var binding: FragmentFavPageDifferentOptBinding
-    private lateinit var adapter: MyTabAdapter
+    private lateinit var adapter: MovieAdapter
 
 
     override fun onCreateView(
@@ -29,7 +30,7 @@ class FavPageDifferentOptFragment(category: String) : Fragment() {
         binding = FragmentFavPageDifferentOptBinding.inflate(layoutInflater, container, false)
         val viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
         adapter =
-            MyTabAdapter(object : com.example.cinemalab.ui.home.tabs.adapter.MovieActionListener {
+            MovieAdapter(object : MovieActionListener {
                 override fun onMovie(movie: Movie) {
                     findNavController().navigate(
                         R.id.action_action_favorites_to_movieDetailFragment,

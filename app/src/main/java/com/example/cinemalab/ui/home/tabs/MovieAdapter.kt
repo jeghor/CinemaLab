@@ -1,4 +1,4 @@
-package com.example.cinemalab.ui.home.tabs.adapter
+package com.example.cinemalab.ui.home.tabs
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,26 +14,26 @@ interface MovieActionListener {
     fun onFavorites(movie: Movie)
 }
 
-class MyTabAdapter(
+class MovieAdapter(
     private val actionListener: MovieActionListener
-) : RecyclerView.Adapter<MyTabAdapter.MyTabViewHolder>(), View.OnClickListener {
+) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(), View.OnClickListener {
 
     private var movieList = mutableListOf<Movie>()
 
-    inner class MyTabViewHolder(
+    inner class MovieViewHolder(
         val binding: ItemMovieBinding
     ) : RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyTabViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemMovieBinding.inflate(layoutInflater, parent, false)
         binding.root.setOnClickListener(this)
-        return MyTabViewHolder(binding)
+        return MovieViewHolder(binding)
     }
 
     override fun getItemCount(): Int = movieList.size
 
-    override fun onBindViewHolder(holder: MyTabViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movieList[position]
 
         holder.binding.root.tag = movie

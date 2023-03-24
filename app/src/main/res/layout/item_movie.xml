@@ -68,6 +68,9 @@
         android:fontFamily="@font/comfortaa_light"
         tools:text="Belarus"
         android:layout_marginTop="4dp"
+        android:maxWidth="96dp"
+        android:lines="1"
+        android:ellipsize="end"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@+id/eng_movie_name_and_year"
         app:layout_constraintTop_toBottomOf="@+id/eng_movie_name_and_year" />
@@ -84,12 +87,14 @@
 
     <TextView
         android:id="@+id/genre"
-        android:layout_width="wrap_content"
+        android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/comfortaa_light"
         android:textSize="10sp"
+        android:lines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/eng_movie_name_and_year"
         tools:text="драма, приключение" />

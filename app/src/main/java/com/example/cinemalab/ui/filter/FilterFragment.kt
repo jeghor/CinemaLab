@@ -9,8 +9,7 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
-import com.example.cinemalab.App
-import com.example.cinemalab.R
+import com.example.cinemalab.*
 import com.example.cinemalab.databinding.FragmentFilterBinding
 import kotlinx.android.synthetic.main.fragment_filter.view.*
 
@@ -26,21 +25,27 @@ class FilterFragment : Fragment() {
     ): View {
         binding = FragmentFilterBinding.inflate(inflater, container, false)
 
-        val fromFragment = arguments?.getString("DESTINATION")
+        val fromFragment = arguments?.getString(DESTINATION)
 
         binding.backArrow.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.clearButton.setOnClickListener{
+        binding.clearButton.setOnClickListener {
             Toast.makeText(requireContext(), "Clear", Toast.LENGTH_SHORT).show()
         }
 
-        binding.genresSelect.setOnClickListener { findNavController().navigate(R.id.action_filterFragment_to_optionsFragment,
-            bundleOf("TYPE" to "Genres")
-        ) }
-        binding.countrySelect.setOnClickListener { findNavController().navigate(R.id.action_filterFragment_to_optionsFragment,
-            bundleOf("TYPE" to "Countries")
-        ) }
+        binding.genresSelect.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_filterFragment_to_optionsFragment,
+                bundleOf(OPTION_TYPE to "Genres")
+            )
+        }
+        binding.countrySelect.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_filterFragment_to_optionsFragment,
+                bundleOf(OPTION_TYPE to "Countries")
+            )
+        }
         binding.yearSelect.setOnClickListener {
             it.yearEdit.callOnClick()
         }
@@ -49,12 +54,14 @@ class FilterFragment : Fragment() {
             binding.yearEdit.setText(year)
         }
 
-        binding.ratingSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        binding.ratingSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 binding.ratingText.text = progress.toString()
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
+
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
 
@@ -62,63 +69,69 @@ class FilterFragment : Fragment() {
 
 
         binding.searchButton.setOnClickListener {
-            when (fromFragment){
-                "MyTab" -> {
-                    findNavController().navigate(R.id.myTabFragment, bundleOf(
-                        "TYPE_NUMBER" to getCategory(),
-                        "GENRES" to getGenres(),
-                        "COUNTRY" to getCountry(),
-                        "YEAR" to getYear(),
-                    )
-                    )
-                }
-                "Search" -> {
-                    findNavController().navigate(R.id.action_search, bundleOf(
-                        "TYPE_NUMBER" to getCategory(),
-                        "GENRES" to getGenres(),
-                        "COUNTRY" to getCountry(),
-                        "YEAR" to getYear(),
-                    )
-                    )
-                }
-            }
-
+            findNavController().navigate(
+                R.id.action_filterFragment_to_searchFragment, bundleOf(
+                    TYPE_NUMBER to getCategory(),
+                    GENRES to getGenres(),
+                    COUNTRY to getCountry(),
+                    YEAR to getYear(),
+                    RATING to getRating(),
+                    SORT_BY to getSort()
+                )
+            )
         }
 
         return binding.root
     }
 
-    private fun getCategory():Int{
-        val category = when(binding.categoriesRadioGroup.checkedRadioButtonId){
+    private fun getCategory(): Int {
+        val category = when (binding.categoriesRadioGroup.checkedRadioButtonId) {
             binding.seriesRadio.id -> 2
             binding.filmsRadio.id -> 1
-            else -> 1
+            binding.cartoonRadio.id -> 3
+            binding.animeRadio.id -> 4
+            else -> 5
         }
         return category
     }
 
-    private fun getGenres():ArrayList<String>{
+    private fun getGenres(): ArrayList<String> {
         val genres = arrayListOf<String>()
-        optionsService.getSelectedGenres().forEach {
-            genres.add(it.genre)
+        optionsService.genres.forEach {
+            if (it.isSelected) {
+                genres.add(it.name)
+            }
         }
         return genres
     }
 
-    private fun getCountry():String{
-        val countries = mutableListOf<String>()
-        optionsService.getSelectedCountries().forEach {
-            countries.add(it.country)
+    private fun getCountry(): ArrayList<String> {
+        val countries = ArrayList<String>()
+        optionsService.countries.forEach {
+            if (it.isSelected) {
+                countries.add(it.name)
+            }
         }
-        return countries[0]
+        return countries
     }
 
-    private fun getYear():Int{
-        var year = 2023
-        if (binding.yearEdit.text.isNotBlank()){
-            year = binding.yearEdit.text.toString().toInt()
+    private fun getYear(): String {
+        var year = "1990-2023"
+        if (binding.yearEdit.text.isNotBlank()) {
+            year = binding.yearEdit.text.toString().trim()
         }
         return year
+    }
+
+    private fun getRating(): String = "${binding.ratingText.text}-10"
+
+    private fun getSort(): String {
+        val sort = when (binding.sortByRadioGroup.checkedRadioButtonId) {
+            binding.byDateRadio.id -> "year"
+            binding.byPopularityRadio.id -> "votes.kp"
+            else -> "rating.kp"
+        }
+        return sort
     }
 
 }

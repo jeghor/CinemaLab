@@ -5,12 +5,6 @@
         android:id="@+id/action_home"
         android:title="@string/bottom_home"
         android:icon="@drawable/home_selector"/>
-
-    <item
-        android:id="@+id/action_search"
-        android:title="@string/bottom_search"
-        android:icon="@drawable/search_selector"/>
-
     <item
         android:id="@+id/action_favorites"
         android:title="@string/bottom_favorites"

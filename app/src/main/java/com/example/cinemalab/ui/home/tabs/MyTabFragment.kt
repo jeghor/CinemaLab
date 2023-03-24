@@ -11,11 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemalab.App
 import com.example.cinemalab.R
-import com.example.cinemalab.data.remote.mapper.FilterMovieEntityMapper
 import com.example.cinemalab.data.remote.model.filtermovie.Doc
 import com.example.cinemalab.databinding.FragmentMyTabBinding
-import com.example.cinemalab.ui.filter.Filter
-import com.example.cinemalab.ui.home.tabs.viewmodel.MyTabViewModel
+import com.example.cinemalab.presentation.viewmodel.MyTabViewModel
 import com.example.cinemalab.ui.search.adapter.SearchAdapter
 
 class MyTabFragment() : Fragment() {
@@ -62,28 +60,28 @@ class MyTabFragment() : Fragment() {
         binding.onboardingGroup.visibility = View.VISIBLE
         binding.myTabRecyclerView.visibility = View.GONE
 
-        if (arguments != null){
-            binding.onboardingGroup.visibility = View.GONE
-            binding.myTabRecyclerView.visibility = View.VISIBLE
-            val filter = Filter(
-                typeNumber = arguments?.getInt("TYPE_NUMBER") ?: 1,
-                genres = arguments?.getStringArrayList("GENRES")!!,
-                country = arguments?.getString("COUNTRY")!!,
-                year = arguments?.getInt("YEAR") ?: 2020,
-                sortBy = "Rating"
-            )
-
-            binding.myTabRecyclerView.adapter = adapter
-            binding.myTabRecyclerView.layoutManager = LinearLayoutManager(context)
-
-            viewModel.getFilterMovie(filter)
-            viewModel.movie.observe(viewLifecycleOwner){
-                adapter.setList(FilterMovieEntityMapper().mapFromModel(it).docs)
-                adapter.movieList.forEach {
-                    App.filterMovieList.add(it)
-                }
-            }
-        }
+//        if (arguments != null){
+//            binding.onboardingGroup.visibility = View.GONE
+//            binding.myTabRecyclerView.visibility = View.VISIBLE
+//            val filter = Filter(
+//                typeNumber = arguments?.getInt("TYPE_NUMBER") ?: 1,
+//                genres = arguments?.getStringArrayList("GENRES")!!,
+//                country = arguments?.getString("COUNTRY")!!,
+//                year = arguments?.getInt("YEAR") ?: 2020,
+//                sortBy = "Rating"
+//            )
+//
+//            binding.myTabRecyclerView.adapter = adapter
+//            binding.myTabRecyclerView.layoutManager = LinearLayoutManager(context)
+//
+//            viewModel.getFilterMovie(filter)
+//            viewModel.movie.observe(viewLifecycleOwner){
+//                adapter.setList(FilterMovieEntityMapper().mapFromModel(it).docs)
+//                adapter.movieList.forEach {
+//                    App.filterMovieList.add(it)
+//                }
+//            }
+//        }
 
         return binding.root
     }

@@ -34,7 +34,7 @@
         android:id="@+id/sub_text"
         android:layout_width="232dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/comfortaa"
         android:gravity="center_horizontal"
         android:text="@string/mytab_sub_text"
@@ -46,7 +46,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/setup_button"
-        android:layout_width="112dp"
+        android:layout_width="136dp"
         android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_white_button"

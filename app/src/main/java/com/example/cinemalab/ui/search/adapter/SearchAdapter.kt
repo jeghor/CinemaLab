@@ -18,7 +18,7 @@ class SearchAdapter(
     private val actionListener: MovieActionListener
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(), View.OnClickListener {
 
-    var movieList = mutableListOf<Doc>()
+    private var movieList = mutableListOf<Doc>()
 
     inner class SearchViewHolder(
         val binding: ItemMovieBinding
@@ -40,7 +40,7 @@ class SearchAdapter(
         holder.binding.favButton.tag = movie
 
         with(holder.binding) {
-            if (movie.poster != null){
+            if (movie.poster != null) {
                 Glide.with(posterImage.context)
                     .load(movie.poster.previewUrl)
                     .into(posterImage)
@@ -57,10 +57,10 @@ class SearchAdapter(
 
             var countries = ""
             val countrySize = movie.countries.size
-            val lastIndexOfCountries = movie.countries.indexOf(movie.countries.last())
+            val lastIndexOfCountries = movie.countries.size - 1
             if (countrySize > 0) {
                 movie.countries.forEach {
-                    countries += if (countrySize - 1 == lastIndexOfCountries) {
+                    countries += if (movie.countries.indexOf(it) == lastIndexOfCountries) {
                         it.name + " "
                     } else {
                         it.name + ", "
@@ -71,10 +71,10 @@ class SearchAdapter(
 
             var genres = ""
             val genresSize = movie.genres.size
-            val lastIndexOfGenres = movie.genres.indexOf(movie.genres.last())
+            val lastIndexOfGenres = movie.genres.size - 1
             if (genresSize > 0) {
                 movie.genres.forEach {
-                    genres += if (genresSize - 1 == lastIndexOfGenres) {
+                    genres += if (movie.genres.indexOf(it) == lastIndexOfGenres) {
                         it.name + " "
                     } else {
                         it.name + ", "
@@ -92,10 +92,10 @@ class SearchAdapter(
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.orange))
             } else if (3.0 > ratingImdb && ratingImdb > 0.0) {
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.red))
-            }else rating.background.setTint(holder.binding.root.context.getColor(R.color.white))
+            } else rating.visibility = View.GONE
             rating.text = ratingImdb.toString()
 
-            if (movie.inFavorites){
+            if (movie.inFavorites) {
                 favButton.setBackgroundResource(R.drawable.favoriets_select)
             }
         }
@@ -108,7 +108,7 @@ class SearchAdapter(
 
     override fun onClick(v: View) {
         val movie = v.tag as Doc
-        when(v.id){
+        when (v.id) {
             R.id.fav_button -> actionListener.onFavorites(movie)
             else -> actionListener.onMovie(movie)
         }

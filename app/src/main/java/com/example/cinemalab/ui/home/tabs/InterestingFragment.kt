@@ -9,13 +9,11 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cinemalab.App
-import com.example.cinemalab.R
+import com.example.cinemalab.*
 import com.example.cinemalab.data.remote.mapper.FilterMovieEntityMapper
 import com.example.cinemalab.data.remote.model.filtermovie.Doc
 import com.example.cinemalab.databinding.FragmentInterestingBinding
-import com.example.cinemalab.model.FactsService
-import com.example.cinemalab.ui.home.tabs.viewmodel.InterestingViewModel
+import com.example.cinemalab.presentation.viewmodel.InterestingViewModel
 import com.example.cinemalab.ui.search.adapter.MovieActionListener
 import com.example.cinemalab.ui.search.adapter.SearchAdapter
 
@@ -23,8 +21,6 @@ class InterestingFragment : Fragment() {
 
     private lateinit var binding: FragmentInterestingBinding
     private lateinit var adapter: SearchAdapter
-
-    private val factsService: FactsService = App.factsService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,23 +55,20 @@ class InterestingFragment : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
 
-        viewModel.getMovie()
+        val typeNumber = arguments?.getInt(TYPE_NUMBER)
+        val genres = arguments?.getStringArrayList(GENRES)
+        val countries = arguments?.getStringArrayList(COUNTRY)
+        val year = arguments?.getString(YEAR)
+        val rating = arguments?.getString(RATING)
+        val sortField = arguments?.getString(SORT_BY)
+
+        viewModel.getFilterMovie(typeNumber!!,genres!!,countries!!,year!!,rating!!,sortField!!)
         viewModel.movie.observe(viewLifecycleOwner){
             adapter.setList(FilterMovieEntityMapper().mapFromModel(it).docs)
         }
 
-        //factsService.addListener(factsListener)
 
         return binding.root
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        factsService.removeListener(factsListener)
-//    }
-//
-//    private val factsListener: FactsListener = {
-//        adapter.facts = it
-//    }
 
 }

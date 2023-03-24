@@ -6,21 +6,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/action_home">
 
-    <fragment
-        android:id="@+id/action_search"
-        android:name="com.example.cinemalab.ui.search.SearchFragment"
-        android:label="@string/bottom_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_action_search_to_filterFragment"
-            app:destination="@id/filterFragment" />
-        <action
-            android:id="@+id/action_action_search_to_searchEngineFragment"
-            app:destination="@id/searchEngineFragment" />
-        <action
-            android:id="@+id/action_action_search_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment" />
-    </fragment>
      <fragment
         android:id="@+id/action_favorites"
         android:name="com.example.cinemalab.ui.favorites.FavoritesFragment"
@@ -47,6 +32,9 @@
         <action
             android:id="@+id/action_action_home_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_action_home_to_searchEngineFragment"
+            app:destination="@id/searchEngineFragment" />
     </fragment>
     <fragment
         android:id="@+id/action_profile"
@@ -68,6 +56,9 @@
         <action
             android:id="@+id/action_filterFragment_to_optionsFragment"
             app:destination="@id/optionsFragment"/>
+        <action
+            android:id="@+id/action_filterFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"
@@ -90,14 +81,18 @@
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/myTabFragment"
-        android:name="com.example.cinemalab.ui.home.tabs.MyTabFragment"
-        android:label="fragment_my_tab"
-        tools:layout="@layout/fragment_my_tab" />
-    <fragment
         android:id="@+id/movieDetailFragment"
         android:name="com.example.cinemalab.ui.moviedetail.MovieDetailFragment"
         android:label="fragment_movie_detail"
         tools:layout="@layout/fragment_movie_detail" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.cinemalab.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
 
 </navigation>

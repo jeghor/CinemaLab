@@ -49,24 +49,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:checkedButton="@id/all_radio"
+            android:checkedButton="@id/films_radio"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <RadioButton
-                android:id="@+id/all_radio"
-                android:layout_width="112dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/radio_selector"
-                android:button="@android:color/transparent"
-                android:fontFamily="@font/comfortaa"
-                android:text="@string/all_categories"
-                android:textAlignment="center" />
-
-            <RadioButton
                 android:id="@+id/films_radio"
-                android:layout_width="112dp"
+                android:layout_width="96dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/radio_selector"
                 android:button="@android:color/transparent"
@@ -76,12 +66,32 @@
 
             <RadioButton
                 android:id="@+id/series_radio"
-                android:layout_width="112dp"
+                android:layout_width="96dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/radio_selector"
                 android:button="@android:color/transparent"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/series"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:id="@+id/cartoon_radio"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radio_selector"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/comfortaa"
+                android:text="@string/cartoon"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:id="@+id/anime_radio"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radio_selector"
+                android:button="@android:color/transparent"
+                android:fontFamily="@font/comfortaa"
+                android:text="@string/anime"
                 android:textAlignment="center" />
 
         </RadioGroup>
@@ -237,7 +247,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:fontFamily="@font/comfortaa"
-                android:text="@string/any"
+                android:text="@string/rating_text"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -309,7 +319,7 @@
 
             <RadioButton
                 android:id="@+id/by_popularity_radio"
-                android:layout_width="112dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/radio_selector"
                 android:button="@android:color/transparent"
