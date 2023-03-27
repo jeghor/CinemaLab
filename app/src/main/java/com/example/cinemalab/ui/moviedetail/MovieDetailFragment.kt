@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.cinemalab.R
 import com.example.cinemalab.data.remote.mapper.MovieEntityMapper
 import com.example.cinemalab.data.remote.model.movie.Person
+import com.example.cinemalab.data.remote.model.movie.SimilarMovy
 import com.example.cinemalab.databinding.FragmentMovieDetailBinding
 import com.example.cinemalab.presentation.viewmodel.MovieDetailViewModel
 import kotlinx.coroutines.*
@@ -32,7 +35,14 @@ class MovieDetailFragment : Fragment() {
         binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this)[MovieDetailViewModel::class.java]
         actorsAdapter = ActorsAdapter()
-        similarAdapter = SimilarMovieAdapter()
+        similarAdapter = SimilarMovieAdapter(object : MovieActionListener{
+            override fun onMovie(movie: SimilarMovy) {
+                findNavController().navigate(R.id.movieDetailFragment,
+                    bundleOf("FILTER_MOVIE_ID" to movie.id)
+                )
+            }
+
+        })
         factsAdapter = FactsAdapter()
         binding.allUi.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
