@@ -83,7 +83,7 @@ class SearchAdapter(
             }
             genre.text = genres
 
-            val ratingImdb = movie.rating.imdb
+            val ratingImdb = movie.rating.kp
             if (ratingImdb >= 8.0) {
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.green))
             } else if (8.0 > ratingImdb && ratingImdb >= 5.5) {
@@ -93,7 +93,7 @@ class SearchAdapter(
             } else if (3.0 > ratingImdb && ratingImdb > 0.0) {
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.red))
             } else rating.visibility = View.GONE
-            rating.text = ratingImdb.toString()
+            rating.text = String.format("%.1f",ratingImdb)
 
             if (movie.inFavorites) {
                 favButton.setBackgroundResource(R.drawable.favoriets_select)

@@ -55,19 +55,6 @@ class InterestingFragment : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
 
-        val typeNumber = arguments?.getInt(TYPE_NUMBER)
-        val genres = arguments?.getStringArrayList(GENRES)
-        val countries = arguments?.getStringArrayList(COUNTRY)
-        val year = arguments?.getString(YEAR)
-        val rating = arguments?.getString(RATING)
-        val sortField = arguments?.getString(SORT_BY)
-
-        viewModel.getFilterMovie(typeNumber!!,genres!!,countries!!,year!!,rating!!,sortField!!)
-        viewModel.movie.observe(viewLifecycleOwner){
-            adapter.setList(FilterMovieEntityMapper().mapFromModel(it).docs)
-        }
-
-
         return binding.root
     }
 

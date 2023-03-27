@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="208dp"
+    android:layout_marginHorizontal="8dp"
     android:layout_margin="6dp"
-    android:background="@color/white">
-
-    <TextView
-        android:id="@+id/post_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/comfortaa"
-        android:text="Fact"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/poster_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/poster_image"
-        android:layout_width="360px"
-        android:layout_height="540px"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    android:background="@drawable/rounded_white_layout">
 
     <TextView
         android:id="@+id/fact_text"
-        android:layout_width="224dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="16dp"
         android:fontFamily="@font/comfortaa_light"
-        android:text="In order to show Neo stabbed with needles, it was necessary to call on a practicing acupuncturist. The needles in the frame are real, though a large part of them are stuck not into the actor, but into the model. Needles had to be stuck into the actor's head for real."
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/poster_image"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_header" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/spoiler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_gray_layout"
+        android:backgroundTint="@color/black"
+        android:elevation="3dp"
+        android:fontFamily="@font/comfortaa"
+        android:gravity="center"
+        android:text="@string/spoiler"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        android:textAllCaps="true"
+        android:visibility="gone"
+        android:paddingHorizontal="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    tools:context=".ui.moviedetail.MovieDetailFragment"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".ui.moviedetail.MovieDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -36,11 +36,55 @@
             app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
 
         <TextView
+            android:id="@+id/rating"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_gray_layout"
+            android:backgroundTint="@color/green"
+            android:elevation="3dp"
+            android:fontFamily="@font/comfortaa"
+            android:gravity="center"
+            android:text="@string/rating_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="-8dp"
+            app:layout_constraintStart_toStartOf="@+id/poster_image"
+            app:layout_constraintTop_toTopOf="@+id/poster_image" />
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_gray_layout"
+            android:backgroundTint="@color/black"
+            android:elevation="3dp"
+            android:fontFamily="@font/comfortaa"
+            android:gravity="center"
+            android:text="@string/movie_age"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="-8dp"
+            app:layout_constraintEnd_toEndOf="@+id/poster_image"
+            app:layout_constraintTop_toTopOf="@+id/poster_image" />
+
+        <ImageView
+            android:id="@+id/fav_button"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_bottom_nav_favorites"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/movie_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/comfortaa_bold"
+            android:gravity="center"
             android:text="@string/app_name"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -49,14 +93,15 @@
             app:layout_constraintTop_toBottomOf="@+id/poster_image" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:layout_marginHorizontal="32dp"
-            android:minHeight="96dp"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/rounded_white_layout"
+            android:minHeight="96dp"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_name">
@@ -66,8 +111,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa"
-                android:textColor="@color/gray"
                 android:text="@string/movie_year"
+                android:textColor="@color/gray"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,11 +121,11 @@
                 android:id="@+id/year_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/movie_year"
                 android:fontFamily="@font/comfortaa"
+                android:gravity="end"
+                android:text="@string/movie_year"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,11 +133,11 @@
                 android:id="@+id/countries"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_countries"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/year" />
 
@@ -101,11 +146,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa"
+                android:gravity="end"
+                android:maxWidth="128dp"
                 android:text="@string/movie_countries"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:maxWidth="128dp"
-                android:gravity="right"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/countries" />
 
@@ -113,11 +158,11 @@
                 android:id="@+id/genres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_genres"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/countries_detail" />
 
@@ -125,12 +170,12 @@
                 android:id="@+id/genres_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
                 android:maxWidth="128dp"
                 android:text="@string/movie_genres"
-                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/genres" />
 
@@ -138,11 +183,11 @@
                 android:id="@+id/slogan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_slogan"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/genres_detail" />
 
@@ -150,12 +195,12 @@
                 android:id="@+id/slogan_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
                 android:maxWidth="128dp"
                 android:text="@string/movie_slogan"
-                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/slogan" />
 
@@ -163,11 +208,11 @@
                 android:id="@+id/director"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_director"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/slogan_detail" />
 
@@ -175,12 +220,12 @@
                 android:id="@+id/director_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
                 android:maxWidth="128dp"
                 android:text="@string/movie_director"
-                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/director" />
 
@@ -188,12 +233,12 @@
                 android:id="@+id/producer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
+                android:maxWidth="156dp"
                 android:text="@string/movie_producer"
                 android:textColor="@color/gray"
                 android:textSize="12sp"
-                android:maxWidth="156dp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/director_detail" />
 
@@ -201,12 +246,12 @@
                 android:id="@+id/producer_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/movie_producer"
-                android:maxWidth="128dp"
                 android:fontFamily="@font/comfortaa"
+                android:gravity="end"
+                android:maxWidth="128dp"
+                android:text="@string/movie_producer"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/producer" />
 
@@ -214,10 +259,10 @@
                 android:id="@+id/operator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_operator"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/producer_detail" />
 
@@ -225,12 +270,12 @@
                 android:id="@+id/operator_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
                 android:maxWidth="128dp"
                 android:text="@string/movie_operator"
-                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/operator" />
 
@@ -238,10 +283,10 @@
                 android:id="@+id/designer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_designer"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/operator_detail" />
 
@@ -249,12 +294,12 @@
                 android:id="@+id/designer_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
                 android:maxWidth="128dp"
                 android:text="@string/movie_designer"
-                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/designer" />
 
@@ -262,10 +307,10 @@
                 android:id="@+id/editor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_editor"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/designer_detail" />
 
@@ -273,12 +318,12 @@
                 android:id="@+id/editor_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
                 android:maxWidth="128dp"
                 android:text="@string/movie_editor"
-                android:fontFamily="@font/comfortaa"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/editor" />
 
@@ -286,10 +331,10 @@
                 android:id="@+id/budget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_budget"
                 android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editor_detail" />
 
@@ -297,11 +342,11 @@
                 android:id="@+id/budget_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/movie_budget"
                 android:fontFamily="@font/comfortaa"
+                android:gravity="end"
+                android:text="@string/movie_budget"
                 android:textColor="@color/black"
-                android:gravity="right"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/budget" />
 
@@ -309,10 +354,10 @@
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/comfortaa"
-                android:text="Описание"
-                android:textSize="12sp"
                 android:layout_marginTop="32dp"
+                android:fontFamily="@font/comfortaa"
+                android:text="@string/movie_description"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/budget" />
 
@@ -320,15 +365,176 @@
                 android:id="@+id/description_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/movie_description"
-                android:textSize="12sp"
-                android:layout_marginTop="12dp"
                 android:textColor="@color/black"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/actor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actors"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_info"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actors_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actor_text" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_white_layout"
+            android:minHeight="96dp"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actors_recycler_view">
+
+            <TextView
+                android:id="@+id/fees_usa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:text="@string/movie_fees_usa"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fees_usa_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
+                android:text="@string/movie_year"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fees_world"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/comfortaa"
+                android:text="@string/movie_countries"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fees_usa" />
+
+            <TextView
+                android:id="@+id/fees_world_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa"
+                android:gravity="end"
+                android:maxWidth="128dp"
+                android:text="@string/movie_fees_world"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/fees_world" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/similar_movies_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/similar_movie"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fees"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/similar_movies_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/similar_movies_text" />
+
+        <TextView
+            android:id="@+id/facts_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_facts"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/similar_movies_recycler_view"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/facts_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/facts_text" />
+
+        <Space
+            android:id="@+id/bottom_space"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/facts_recycler_view" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/all_ui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="main_info,actors_recycler_view,
+            back_arrow,fav_button,poster_image,movie_name,bottom_space,rating,
+            fees,similar_movies_recycler_view,similar_movies_text,facts_text,
+            facts_recycler_view,actor_text,age" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/black"
+            android:indeterminateTintMode="src_atop"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

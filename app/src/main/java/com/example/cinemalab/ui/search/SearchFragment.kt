@@ -16,6 +16,10 @@ import com.example.cinemalab.databinding.FragmentSearchBinding
 import com.example.cinemalab.presentation.viewmodel.InterestingViewModel
 import com.example.cinemalab.ui.search.adapter.MovieActionListener
 import com.example.cinemalab.ui.search.adapter.SearchAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -54,8 +58,20 @@ class SearchFragment : Fragment() {
         val sortField = arguments?.getString(SORT_BY)
 
         viewModel.getFilterMovie(typeNumber!!,genres!!,countries!!,year!!,rating!!,sortField!!)
+
         viewModel.movie.observe(viewLifecycleOwner){
             adapter.setList(FilterMovieEntityMapper().mapFromModel(it).docs)
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            if (adapter.itemCount == 0){
+                binding.searchRecyclerView.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+
+                delay(1500)
+                binding.progressBar.visibility = View.GONE
+                binding.searchRecyclerView.visibility = View.VISIBLE
+            }
         }
 
         return binding.root
