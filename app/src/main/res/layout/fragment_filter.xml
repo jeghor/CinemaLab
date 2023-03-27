@@ -84,16 +84,6 @@
                 android:text="@string/cartoon"
                 android:textAlignment="center" />
 
-            <RadioButton
-                android:id="@+id/anime_radio"
-                android:layout_width="96dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/radio_selector"
-                android:button="@android:color/transparent"
-                android:fontFamily="@font/comfortaa"
-                android:text="@string/anime"
-                android:textAlignment="center" />
-
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -133,13 +123,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/genres_detail"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/any"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
+                android:lines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -169,13 +162,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/countries_detail"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/any"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
+                android:lines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -206,7 +202,7 @@
 
             <EditText
                 android:id="@+id/yearEdit"
-                android:layout_width="wrap_content"
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
                 android:fontFamily="@font/comfortaa"

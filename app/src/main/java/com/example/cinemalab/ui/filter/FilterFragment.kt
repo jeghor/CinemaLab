@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.cinemalab.*
@@ -24,6 +23,7 @@ class FilterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFilterBinding.inflate(inflater, container, false)
+        setOptionsText()
 
         val fromFragment = arguments?.getString(DESTINATION)
 
@@ -31,7 +31,7 @@ class FilterFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.clearButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Clear", Toast.LENGTH_SHORT).show()
+            clearOptions()
         }
 
         binding.genresSelect.setOnClickListener {
@@ -88,9 +88,7 @@ class FilterFragment : Fragment() {
         val category = when (binding.categoriesRadioGroup.checkedRadioButtonId) {
             binding.seriesRadio.id -> 2
             binding.filmsRadio.id -> 1
-            binding.cartoonRadio.id -> 3
-            binding.animeRadio.id -> 4
-            else -> 5
+            else -> 3
         }
         return category
     }
@@ -132,6 +130,22 @@ class FilterFragment : Fragment() {
             else -> "rating.kp"
         }
         return sort
+    }
+
+    private fun setOptionsText(){
+        val genres = getGenres()
+        val countries = getCountry()
+
+        if (genres.size!=0){
+            binding.genresDetail.text = genres[0]
+        }
+        if (countries.size!=0){
+            binding.countriesDetail.text = countries[0]
+        }
+    }
+
+    private fun clearOptions(){
+
     }
 
 }
