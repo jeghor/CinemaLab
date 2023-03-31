@@ -3,6 +3,7 @@ package com.example.cinemalab.ui.search.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemalab.R
@@ -97,7 +98,7 @@ class SearchAdapter(
 
             if (movie.inFavorites) {
                 favButton.setBackgroundResource(R.drawable.favoriets_select)
-            }
+            } else favButton.setBackgroundResource(R.drawable.ic_bottom_nav_favorites)
         }
     }
 
@@ -108,8 +109,12 @@ class SearchAdapter(
 
     override fun onClick(v: View) {
         val movie = v.tag as Doc
+        val favButton : ImageView = v.findViewById(R.id.fav_button)
         when (v.id) {
-            R.id.fav_button -> actionListener.onFavorites(movie)
+            R.id.fav_button -> {
+                actionListener.onFavorites(movie)
+                favButton.setBackgroundResource(R.drawable.favoriets_select)
+            }
             else -> actionListener.onMovie(movie)
         }
     }

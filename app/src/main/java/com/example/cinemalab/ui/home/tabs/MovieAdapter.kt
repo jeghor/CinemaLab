@@ -3,6 +3,7 @@ package com.example.cinemalab.ui.home.tabs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cinemalab.R
@@ -19,6 +20,10 @@ class MovieAdapter(
 ) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(), View.OnClickListener {
 
     private var movieList = mutableListOf<Movie>()
+        set(value) {
+            field = value
+            notifyItemInserted(movieList.size)
+        }
 
     inner class MovieViewHolder(
         val binding: ItemMovieBinding
@@ -28,6 +33,7 @@ class MovieAdapter(
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemMovieBinding.inflate(layoutInflater, parent, false)
         binding.root.setOnClickListener(this)
+        binding.favButton.setOnClickListener(this)
         return MovieViewHolder(binding)
     }
 
@@ -36,28 +42,30 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movieList[position]
 
-        holder.binding.root.tag = movie
-
         with(holder.binding) {
+
+            root.tag = movie
+            favButton.tag = movie
 
             Glide.with(posterImage.context)
                 .load(movie.poster?.previewUrl)
                 .into(posterImage)
 
             movieName.text = movie.name
-
             val year = movie.year
             engMovieNameAndYear.text = "$year"
 
             var countries = ""
             val countrySize = movie.countries?.size
-            val lastIndexOfCountries = movie.countries?.indexOf(movie.countries.last())
+            val lastIndexOfCountries = movie.countries?.size?.minus(1)
             if (countrySize != null) {
-                movie.countries.forEach {
-                    countries += if (countrySize - 1 == lastIndexOfCountries) {
-                        it.name + " "
-                    } else {
-                        it.name + ", "
+                if (countrySize > 0) {
+                    movie.countries.forEach {
+                        countries += if (movie.countries.indexOf(it) == lastIndexOfCountries) {
+                            it.name + " "
+                        } else {
+                            it.name + ", "
+                        }
                     }
                 }
             }
@@ -65,20 +73,22 @@ class MovieAdapter(
 
             var genres = ""
             val genresSize = movie.genres?.size
-            val lastIndexOfGenres = movie.genres?.indexOf(movie.genres.last())
+            val lastIndexOfGenres = movie.genres?.size?.minus(1)
             if (genresSize != null) {
-                movie.genres.forEach {
-                    genres += if (genresSize - 1 == lastIndexOfGenres) {
-                        it.name + " "
-                    } else {
-                        it.name + ", "
+                if (genresSize > 0) {
+                    movie.genres.forEach {
+                        genres += if (movie.genres.indexOf(it) == lastIndexOfGenres) {
+                            it.name + " "
+                        } else {
+                            it.name + ", "
+                        }
                     }
                 }
             }
             genre.text = genres
 
-            val ratingImdb = movie.rating?.imdb
-            if (ratingImdb!! >= 8.0) {
+            val ratingImdb = movie.rating!!.kp
+            if (ratingImdb >= 8.0) {
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.green))
             } else if (8.0 > ratingImdb && ratingImdb >= 5.5) {
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.grass_green))
@@ -86,14 +96,11 @@ class MovieAdapter(
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.orange))
             } else if (3.0 > ratingImdb && ratingImdb > 0.0) {
                 rating.background.setTint(holder.binding.root.context.getColor(R.color.red))
-            } else rating.background.setTint(holder.binding.root.context.getColor(R.color.white))
-            rating.text = ratingImdb.toString()
-        }
-    }
+            } else rating.visibility = View.GONE
+            rating.text = String.format("%.1f", ratingImdb)
 
-    fun setList(list: MutableList<Movie>) {
-        movieList = list
-        notifyItemInserted(movieList.size)
+            favButton.setBackgroundResource(R.drawable.favoriets_select)
+        }
     }
 
     fun addMovie(movie: Movie) {
@@ -101,9 +108,24 @@ class MovieAdapter(
         notifyItemInserted(movieList.size)
     }
 
+    fun removeMovie(movie: Movie){
+        val indexToDelete = movieList.indexOfFirst { it.id == movie.id }
+        if (indexToDelete != -1){
+            movieList.removeAt(indexToDelete)
+            notifyItemRemoved(indexToDelete)
+        }
+    }
+
     override fun onClick(v: View) {
         val movie = v.tag as Movie
-        actionListener.onMovie(movie)
+        val favButton: ImageView = v.findViewById(R.id.fav_button)
+        when (v.id) {
+            R.id.fav_button -> {
+                actionListener.onFavorites(movie)
+                favButton.setBackgroundResource(R.drawable.ic_bottom_nav_favorites)
+            }
+            else -> actionListener.onMovie(movie)
+        }
     }
 
 }
