@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.cinemalab.App
 import com.example.cinemalab.R
 import com.example.cinemalab.data.remote.model.filtermovie.Doc
 import com.example.cinemalab.databinding.ItemMovieBinding
@@ -41,6 +42,11 @@ class SearchAdapter(
         holder.binding.favButton.tag = movie
 
         with(holder.binding) {
+
+            App.favMovies.forEach {
+                if (movie.id == it.id) movie.inFavorites = true
+            }
+
             if (movie.poster != null) {
                 Glide.with(posterImage.context)
                     .load(movie.poster.previewUrl)

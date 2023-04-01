@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.cinemalab.App
 import com.example.cinemalab.R
 import com.example.cinemalab.databinding.FragmentHomeBinding
+import com.example.cinemalab.presentation.viewmodel.HomeViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -43,5 +46,13 @@ class HomeFragment : Fragment() {
                 else -> tab.text = context.getString(R.string.interesting)
             }
         }.attach()
+
+        val viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        viewModel.initDatabase()
+        viewModel.getFavMovies().observe(viewLifecycleOwner){
+            App.favMovies.clear()
+            App.favMovies.addAll(it.asReversed())
+        }
+
     }
 }

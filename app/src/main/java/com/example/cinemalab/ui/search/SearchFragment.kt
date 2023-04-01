@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemalab.*
+import com.example.cinemalab.data.cache.model.FavMovie
 import com.example.cinemalab.data.remote.mapper.FilterMovieEntityMapper
 import com.example.cinemalab.data.remote.model.filtermovie.Doc
 import com.example.cinemalab.databinding.FragmentSearchBinding
@@ -31,21 +32,25 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
+        val viewModel = ViewModelProvider(this)[InterestingViewModel::class.java]
+
         adapter = SearchAdapter(object : MovieActionListener {
             override fun onMovie(movie: Doc) {
                 findNavController().navigate(
                     R.id.action_searchFragment_to_movieDetailFragment,
-                    bundleOf("FILTER_MOVIE_ID" to movie.id)
+                    bundleOf(
+                        MOVIE_ID to movie.id,
+                        IN_FAVORITES to movie.inFavorites
+                    )
                 )
             }
 
             override fun onFavorites(movie: Doc) {
                 movie.inFavorites = true
-                App.favoritesMovieIdsList.add(movie.id)
+                viewModel.insert(FavMovie(movie.id)){}
             }
 
         })
-        val viewModel = ViewModelProvider(this)[InterestingViewModel::class.java]
 
         binding.searchRecyclerView.adapter = adapter
         binding.searchRecyclerView.layoutManager = LinearLayoutManager(context)

@@ -5,13 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cinemalab.App
+import com.example.cinemalab.IN_FAVORITES
+import com.example.cinemalab.MOVIE_ID
 import com.example.cinemalab.R
+import com.example.cinemalab.data.cache.model.FavMovie
 import com.example.cinemalab.data.remote.mapper.MovieEntityMapper
 import com.example.cinemalab.data.remote.model.movie.Movie
 import com.example.cinemalab.databinding.FragmentFavoritesBinding
@@ -27,25 +29,26 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        val viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
         adapter = MovieAdapter(object : MovieActionListener {
             override fun onMovie(movie: Movie) {
                 findNavController().navigate(
                     R.id.action_action_favorites_to_movieDetailFragment,
                     bundleOf(
-                        "FILTER_MOVIE_ID" to movie.id,
+                        MOVIE_ID to movie.id,
+                        IN_FAVORITES to true
                     )
                 )
             }
 
             override fun onFavorites(movie: Movie) {
                 movie.inFavorites = false
-                App.favoritesMovieIdsList.remove(movie.id)
+                App.favMovies.remove(FavMovie(movie.id))
+                viewModel.delete(FavMovie(movie.id)){}
                 adapter.removeMovie(movie)
             }
 
         })
-
-        val viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -55,17 +58,13 @@ class FavoritesFragment : Fragment() {
         }
         binding.searchCustom.setOnClickListener { findNavController().navigate(R.id.action_action_favorites_to_searchEngineFragment) }
 
-        App.favoritesMovieIdsList.forEach {
-            viewModel.getMovieById(it)
+        App.favMovies.forEach {
+            viewModel.getMovieById(it.id)
         }
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
             adapter.addMovie(MovieEntityMapper().mapFromModel(movie)!!)
         }
-
-        binding.filterRecycler.setOnClickListener {
-            Toast.makeText(context, adapter.itemCount.toString(), Toast.LENGTH_SHORT)
-                .show()
-        }
+        binding.amount.text = "${App.favMovies.size} ${resources.getString(R.string.total_in_favorites)}"
 
         return binding.root
     }

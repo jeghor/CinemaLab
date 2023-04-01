@@ -6,12 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.cinemalab.IN_FAVORITES
+import com.example.cinemalab.MOVIE_ID
 import com.example.cinemalab.R
+import com.example.cinemalab.data.cache.model.FavMovie
 import com.example.cinemalab.data.remote.mapper.MovieEntityMapper
 import com.example.cinemalab.data.remote.model.movie.Person
 import com.example.cinemalab.data.remote.model.movie.SimilarMovy
@@ -38,7 +42,7 @@ class MovieDetailFragment : Fragment() {
         similarAdapter = SimilarMovieAdapter(object : MovieActionListener{
             override fun onMovie(movie: SimilarMovy) {
                 findNavController().navigate(R.id.movieDetailFragment,
-                    bundleOf("FILTER_MOVIE_ID" to movie.id)
+                    bundleOf(MOVIE_ID to movie.id)
                 )
             }
 
@@ -47,11 +51,10 @@ class MovieDetailFragment : Fragment() {
         binding.allUi.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
 
+        val movieId = arguments?.getInt(MOVIE_ID)
+        var inFavorites = arguments?.getBoolean(IN_FAVORITES)
 
-        val movieId = arguments?.getInt("MOVIE ID")
-        val movieIndex = arguments?.getInt(("FILTER_MOVIE_ID"))
-
-        viewModel.getMovieById(movieIndex!!)
+        viewModel.getMovieById(movieId!!)
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(800)
@@ -89,27 +92,30 @@ class MovieDetailFragment : Fragment() {
 
                 rating.text = String.format("%.1f",movie.rating?.kp)
                 age.text = "${movie.ageRating}+"
+                if (inFavorites == true) {
+                    favButton.setBackgroundResource(R.drawable.favoriets_select)
+                } else favButton.setBackgroundResource(R.drawable.ic_bottom_nav_favorites)
 
                 movieName.text = movie.name
                 yearDetail.text = movie.year.toString()
 
                 if (countrySize != null) {
-                    movie.countries.forEach {
+                    movie.countries.forEach {country ->
                         countries += if (countrySize - 1 == lastIndexOfCountries) {
-                            it.name + " "
+                            country.name + " "
                         } else {
-                            it.name + ", "
+                            country.name + ", "
                         }
                     }
                 }
                 countriesDetail.text = countries
 
                 if (genresSize != null) {
-                    movie.genres.forEach {
+                    movie.genres.forEach {genre ->
                         genres += if (genresSize - 1 == lastIndexOfGenres) {
-                            it.name + " "
+                            genre.name + " "
                         } else {
-                            it.name + ", "
+                            genre.name + ", "
                         }
                     }
                 }
@@ -117,7 +123,7 @@ class MovieDetailFragment : Fragment() {
                 sloganDetail.text = movie.slogan
 
 
-                val persons = movie.persons?.let { getPersons(it) }
+                val persons = movie.persons?.let { person ->  getPersons(person) }
 
                 directorDetail.text = persons?.get(0) ?: ""
                 producerDetail.text = persons?.get(1) ?: ""
@@ -132,9 +138,9 @@ class MovieDetailFragment : Fragment() {
 
                 descriptionDetail.text = movie.description
 
-                movie.persons?.forEach {
-                    if (it.enProfession == "actor"){
-                        actorsAdapter.actorsList.add(it)
+                movie.persons?.forEach {person ->
+                    if (person.enProfession == "actor"){
+                        actorsAdapter.actorsList.add(person)
                     }
                 }
 
@@ -148,6 +154,17 @@ class MovieDetailFragment : Fragment() {
 
 
         binding.backArrow.setOnClickListener { findNavController().popBackStack() }
+        binding.favButton.setOnClickListener {
+            if (inFavorites==false){
+                viewModel.insert(FavMovie(movieId)){}
+                it.background = ContextCompat.getDrawable(requireContext(),R.drawable.favoriets_select)
+                inFavorites = true
+            } else{
+                viewModel.delete(FavMovie(movieId)){}
+                it.background = ContextCompat.getDrawable(requireContext(),R.drawable.ic_bottom_nav_favorites)
+                inFavorites = false
+            }
+        }
 
         return binding.root
     }

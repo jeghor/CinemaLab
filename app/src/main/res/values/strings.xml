@@ -32,7 +32,7 @@
     <string name="search">Поиск</string>
 
 
-    <string name="total_in_favorites">0 total</string>
+    <string name="total_in_favorites">всего</string>
     <string name="mytab_main_text">Это Ваша вкладка</string>
     <string name="mytab_sub_text">Настройте её под себя и укажите, что хотели бы здесь видеть</string>
     <string name="set_up_btn">Настроить</string>

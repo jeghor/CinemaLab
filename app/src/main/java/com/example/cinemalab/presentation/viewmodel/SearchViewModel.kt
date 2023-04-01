@@ -1,4 +1,4 @@
-package com.example.cinemalab.ui.search
+package com.example.cinemalab.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
