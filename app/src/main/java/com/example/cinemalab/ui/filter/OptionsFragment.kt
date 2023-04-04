@@ -5,35 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cinemalab.App
-import com.example.cinemalab.OPTION_TYPE
+import com.example.cinemalab.*
+import com.example.cinemalab.data.cache.model.Country
+import com.example.cinemalab.data.cache.model.Genre
 import com.example.cinemalab.data.remote.mapper.OptionMapper
-import com.example.cinemalab.data.remote.repository.Repository
 import com.example.cinemalab.databinding.FragmentOptionsBinding
 import com.example.cinemalab.domain.model.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.cinemalab.presentation.viewmodel.OptionsViewModel
 
 class OptionsFragment : Fragment() {
 
     private lateinit var binding: FragmentOptionsBinding
     private lateinit var adapter: OptionAdapter
-    private lateinit var type: String
+    private lateinit var viewModel: OptionsViewModel
+    private lateinit var mapper: OptionMapper
 
     private val optionsService = App.optionsService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentOptionsBinding.inflate(inflater, container, false)
-        type = arguments?.getString(OPTION_TYPE).toString()
+        mapper = OptionMapper()
+        viewModel = ViewModelProvider(this)[OptionsViewModel::class.java]
 
-        adapter = OptionAdapter(object : OptionActionListener{
+        val type = arguments?.getString(OPTION_TYPE).toString()
+
+        adapter = OptionAdapter(object : OptionActionListener {
             override fun onOption(option: Option) {
                 option.isSelected = true
             }
@@ -43,22 +45,22 @@ class OptionsFragment : Fragment() {
         binding.optionsRecyclerView.adapter = adapter
         optionsService.addListener(optionListener)
 
-        val query = if (type == "Genres"){
-            "genres.name"
-        } else "countries.name"
+        when (type) {
+            GENRES -> {
+                if (GENRES_LIST.isEmpty()) {
+                    getOptionsByType(type)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val repo = Repository()
-            val mapper = OptionMapper()
-            val response = repo.getPossibleValues(query)
-            val options = mapper.mapFromModel(response)
-
-            withContext(Dispatchers.Main){
-                adapter.optionList = options
-                if (type == "Genres"){
-                    optionsService.genres.addAll(options)
                 } else {
-                    optionsService.countries.addAll(options)
+                    adapter.optionList = GENRES_LIST
+                    optionsService.genres.addAll(GENRES_LIST)
+                }
+            }
+            COUNTRY -> {
+                if (COUNTRIES_LIST.isEmpty()) {
+                    getOptionsByType(type)
+                } else {
+                    adapter.optionList = COUNTRIES_LIST
+                    optionsService.genres.addAll(COUNTRIES_LIST)
                 }
             }
         }
@@ -75,6 +77,25 @@ class OptionsFragment : Fragment() {
 
     private val optionListener: OptionListener = {
         adapter.optionList = it
+    }
+
+    private fun getOptionsByType(type: String) {
+        viewModel.getOptions(type)
+        viewModel.option.observe(viewLifecycleOwner) {
+            val optionsList = mapper.mapFromModel(it)
+            adapter.optionList = optionsList
+            if (type == GENRES) {
+                optionsService.genres.addAll(optionsList)
+                optionsList.forEach { genre ->
+                    viewModel.insertGenre(Genre(genre.name))
+                }
+            } else {
+                optionsService.countries.addAll(optionsList)
+                optionsList.forEach { country ->
+                    viewModel.insertCountry(Country(country.name))
+                }
+            }
+        }
     }
 
 }

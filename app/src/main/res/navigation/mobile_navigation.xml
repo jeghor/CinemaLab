@@ -74,7 +74,11 @@
         android:id="@+id/editProfileFragment"
         android:name="com.example.cinemalab.ui.profile.EditProfileFragment"
         android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_action_profile"
+            app:destination="@id/action_profile" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.cinemalab.ui.profile.SettingsFragment"

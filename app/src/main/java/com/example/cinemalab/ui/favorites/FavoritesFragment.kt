@@ -17,6 +17,7 @@ import com.example.cinemalab.data.cache.model.FavMovie
 import com.example.cinemalab.data.remote.mapper.MovieEntityMapper
 import com.example.cinemalab.data.remote.model.movie.Movie
 import com.example.cinemalab.databinding.FragmentFavoritesBinding
+import com.example.cinemalab.presentation.viewmodel.FavoritesViewModel
 import com.example.cinemalab.ui.home.tabs.MovieActionListener
 import com.example.cinemalab.ui.home.tabs.MovieAdapter
 

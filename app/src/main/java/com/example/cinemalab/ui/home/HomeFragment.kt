@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.cinemalab.App
-import com.example.cinemalab.R
+import com.example.cinemalab.*
+import com.example.cinemalab.data.cache.model.MyTabOptions
 import com.example.cinemalab.databinding.FragmentHomeBinding
+import com.example.cinemalab.domain.model.Option
 import com.example.cinemalab.presentation.viewmodel.HomeViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -21,7 +22,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         init(requireContext())
@@ -48,10 +49,38 @@ class HomeFragment : Fragment() {
         }.attach()
 
         val viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        viewModel.initDatabase()
-        viewModel.getFavMovies().observe(viewLifecycleOwner){
-            App.favMovies.clear()
-            App.favMovies.addAll(it.asReversed())
+        with(viewModel) {
+            initDatabase()
+            getFavMovies().observe(viewLifecycleOwner) {
+                App.favMovies.clear()
+                App.favMovies.addAll(it.asReversed())
+            }
+            getGenres().observe(viewLifecycleOwner) {
+                it.forEach { genre ->
+                    GENRES_LIST.add(Option(genre.genreName))
+                }
+            }
+            getCountries().observe(viewLifecycleOwner) {
+                it.forEach { country ->
+                    COUNTRIES_LIST.add(Option(country.countryName))
+                }
+            }
+            getMyTabOpt().observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+                    val opt = it[0]
+                    MY_TAB_OPTIONS = MyTabOptions(
+                        opt.typeNumber,
+                        opt.genres,
+                        opt.countries,
+                        opt.year,
+                        opt.rating,
+                        opt.sortField,
+                    )
+                }
+            }
+            getProfile().observe(viewLifecycleOwner){
+                PROFILE = it
+            }
         }
 
     }

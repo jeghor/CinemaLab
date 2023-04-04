@@ -7,9 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.os.bundleOf
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.cinemalab.*
+import com.example.cinemalab.data.cache.mapper.CountryMapper
+import com.example.cinemalab.data.cache.mapper.GenreMapper
+import com.example.cinemalab.data.cache.model.MyTabOptions
 import com.example.cinemalab.databinding.FragmentFilterBinding
+import com.example.cinemalab.presentation.viewmodel.FilterViewModel
 import kotlinx.android.synthetic.main.fragment_filter.view.*
 
 class FilterFragment : Fragment() {
@@ -17,13 +22,15 @@ class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
 
     private val optionsService = App.optionsService
+    private lateinit var viewModel: FilterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentFilterBinding.inflate(inflater, container, false)
         setOptionsText()
+        viewModel = ViewModelProvider(this)[FilterViewModel::class.java]
 
         val fromFragment = arguments?.getString(DESTINATION)
 
@@ -31,19 +38,21 @@ class FilterFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.clearButton.setOnClickListener {
-            clearOptions()
+            if (fromFragment == MY_TAB && MY_TAB_OPTIONS != null){
+                clearOptions(MY_TAB_OPTIONS!!)
+            }
         }
 
         binding.genresSelect.setOnClickListener {
             findNavController().navigate(
                 R.id.action_filterFragment_to_optionsFragment,
-                bundleOf(OPTION_TYPE to "Genres")
+                bundleOf(OPTION_TYPE to GENRES)
             )
         }
         binding.countrySelect.setOnClickListener {
             findNavController().navigate(
                 R.id.action_filterFragment_to_optionsFragment,
-                bundleOf(OPTION_TYPE to "Countries")
+                bundleOf(OPTION_TYPE to COUNTRY)
             )
         }
         binding.yearSelect.setOnClickListener {
@@ -69,16 +78,21 @@ class FilterFragment : Fragment() {
 
 
         binding.searchButton.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_filterFragment_to_searchFragment, bundleOf(
-                    TYPE_NUMBER to getCategory(),
-                    GENRES to getGenres(),
-                    COUNTRY to getCountry(),
-                    YEAR to getYear(),
-                    RATING to getRating(),
-                    SORT_BY to getSort()
+            if (fromFragment == MY_TAB) {
+                viewModel.insertMyTabOpt(getMyTabOpt())
+                findNavController().popBackStack()
+            } else {
+                findNavController().navigate(
+                    R.id.action_filterFragment_to_searchFragment, bundleOf(
+                        TYPE_NUMBER to getCategory(),
+                        GENRES to getGenres(),
+                        COUNTRY to getCountry(),
+                        YEAR to getYear(),
+                        RATING to getRating(),
+                        SORT_BY to getSort()
+                    )
                 )
-            )
+            }
         }
 
         return binding.root
@@ -132,20 +146,30 @@ class FilterFragment : Fragment() {
         return sort
     }
 
-    private fun setOptionsText(){
+    private fun getMyTabOpt(): MyTabOptions = MyTabOptions(
+        typeNumber = getCategory(),
+        genres = GenreMapper().mapFromModel(getGenres()),
+        countries = CountryMapper().mapFromModel(getCountry()),
+        year = getYear(),
+        rating = getRating(),
+        sortField = getSort()
+    )
+
+
+    private fun setOptionsText() {
         val genres = getGenres()
         val countries = getCountry()
 
-        if (genres.size!=0){
+        if (genres.size != 0) {
             binding.genresDetail.text = genres[0]
         }
-        if (countries.size!=0){
+        if (countries.size != 0) {
             binding.countriesDetail.text = countries[0]
         }
     }
 
-    private fun clearOptions(){
-
+    private fun clearOptions(options: MyTabOptions) {
+        viewModel.deleteMyTabOpt(options)
     }
 
 }

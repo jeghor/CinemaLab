@@ -14,16 +14,16 @@ class SearchViewModel() : ViewModel() {
     private val repository = Repository()
     val movie: MutableLiveData<Response<FilterMovie>> = MutableLiveData()
 
-    fun getFilterMovie(filter: Filter) {
-        viewModelScope.launch {
-            val response = repository.getFilterMovie(
-                filter.typeNumber,
-                filter.country,
-                filter.year,
-                filter.genres[0]
-            )
-            movie.value = response
-        }
-    }
+//    fun getFilterMovie(filter: Filter) {
+//        viewModelScope.launch {
+//            val response = repository.getFilterMovie(
+//                filter.typeNumber,
+//                country = filter.country[0],
+//                genres = filter.year,
+//                filter.genres[0]
+//            )
+//            movie.value = response
+//        }
+//    }
 
 }

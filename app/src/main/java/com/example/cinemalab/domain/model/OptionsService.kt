@@ -10,12 +10,6 @@ class OptionsService {
 
     private val listeners = mutableSetOf<OptionListener>()
 
-    fun getOptionList(): List<Option> = option
-    fun setOptionList(list: List<Option>) {
-        option.addAll(option)
-        notifyChanges()
-    }
-
     fun getItemCount(): Int = option.size
 
     fun getSelected(): List<Option> {
